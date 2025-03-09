@@ -115,6 +115,19 @@
             font-size: 14px;
             color: #657786;
         }
+        .clear-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e0e0e0;
+            color: #666;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+            z-index: 5;
+        }
         @media (max-width: 600px) {
             .track-panels {
                 flex-direction: column;
@@ -152,9 +165,9 @@
         
         <div>
             <label for="tweetContent">投稿内容:</label>
-            <div style="position: relative;">
-                <textarea id="tweetContent" placeholder="イベントについてのコメントをここに入力..."></textarea>
-                <button id="clearButton" style="position: absolute; top: 10px; right: 10px; background-color: #e0e0e0; color: #666; padding: 5px 10px; border-radius: 4px; font-size: 12px; border: none; cursor: pointer;">クリア</button>
+            <textarea id="tweetContent" placeholder="イベントについてのコメントをここに入力..."></textarea>
+            <div style="text-align: right; margin-top: 5px; margin-bottom: 15px;">
+                <button id="clearButton" class="small-button">クリア</button>
             </div>
         </div>
         
