@@ -1,0 +1,35 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main # mainブランチへのプルリクエスト時にトリガー
+
+permissions:
+  contents: read # actions/checkout に必要
+
+jobs:
+  build_check: # ジョブ名を build など分かりやすいものに
+    name: Check Build Success
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # PRの最新コードをチェックアウト
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # deploy-pages.yml と合わせる
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Svelte app (for check)
+        run: npm run build
+        env:
+          # ビルドに必要な環境変数があれば deploy-pages.yml と同様に設定
+          BASE_PATH: /x-post-helper
