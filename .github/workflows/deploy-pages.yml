@@ -35,12 +35,7 @@ jobs:
 
       - name: Build Svelte app
         run: npm run build # Svelteアプリをビルド (出力先: build ディレクトリ)
-        env:
-          # ビルド時に環境変数が必要な場合はここに追加
-          # 例: PUBLIC_API_KEY: ${{ secrets.PUBLIC_API_KEY }}
-          # svelte.config.js の paths.base が '/x-post-helper' なので、
-          # ビルド成果物は /x-post-helper/ を基準としたパスで生成されるはず
-          BASE_PATH: /x-post-helper # 必要に応じて SvelteKit が参照する環境変数
+        # env: BASE_PATH は削除し、svelte.config.js の paths.base に依存させる
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

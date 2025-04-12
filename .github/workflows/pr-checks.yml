@@ -30,6 +30,4 @@ jobs:
 
       - name: Build Svelte app (for check)
         run: npm run build
-        env:
-          # ビルドに必要な環境変数があれば deploy-pages.yml と同様に設定
-          BASE_PATH: /x-post-helper
+        # env: BASE_PATH は削除し、svelte.config.js の paths.base に依存させる
