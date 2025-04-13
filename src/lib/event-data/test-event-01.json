@@ -1,0 +1,10 @@
+{
+	"eventId": "test-event-01",
+	"eventName": "テストイベント壱号 (ダミー)",
+	"mainHashtag": "TestEvent01",
+	"tracks": {
+		"A": "TestEvent01A",
+		"B": "TestEvent01B",
+		"C": "TestEvent01C"
+	}
+}
