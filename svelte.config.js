@@ -21,7 +21,7 @@ const config = {
 			// default options are shown. On some platforms
 			// these options are set automatically — see below
 			pages: 'build', // 出力ディレクトリ
-			assets: 'build', // アセットの出力ディレクトリ
+			// assets: 'build', // この行を削除し、デフォルトの挙動に任せる
 			fallback: 'index.html', // SPAモード用のフォールバックファイルを再度有効化
 			precompress: false, // 事前圧縮は無効
 			strict: true // エラー時にビルドを失敗させる
