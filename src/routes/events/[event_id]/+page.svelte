@@ -10,23 +10,20 @@
 	let isLoading = true; // ローディング状態
 	let errorMessage: string | null = null; // エラーメッセージ
 
-	// onMount でデータをフェッチ
+	// onMount でデータを動的インポート
 	onMount(async () => {
 		const eventId = $page.params.event_id; // URLから event_id を取得
 		try {
-			// base パスを考慮してJSONファイルのURLを構築
-			// static ディレクトリ内のファイルは base パスからの相対パスでアクセス
-			const response = await fetch(`${base}/event-data/${eventId}.json`);
-			if (!response.ok) {
-				// 404 以外のエラーも考慮
-				if (response.status === 404) {
-					throw new Error(`イベント '${eventId}' のデータが見つかりません。`);
-				} else {
-					throw new Error(`イベントデータの読み込みに失敗しました (HTTP ${response.status})`);
-				}
+			// src/lib 内のデータを動的インポート
+			// Viteはこれを認識し、必要なJSONファイルをバンドルに含める（はず）
+			const module = await import(`../../../lib/event-data/${eventId}.json`);
+			eventData = module.default as EventData; // default export を取得
+			if (!eventData) {
+				// モジュールはロードできたが default export がない場合など
+				throw new Error(`イベント '${eventId}' のデータ形式が正しくありません。`);
 			}
-			eventData = await response.json();
 		} catch (err) {
+			// import() が失敗した場合 (ファイルが存在しないなど)
 			console.error('イベントデータの読み込みに失敗:', err);
 			if (err instanceof Error) {
 				errorMessage = err.message;
