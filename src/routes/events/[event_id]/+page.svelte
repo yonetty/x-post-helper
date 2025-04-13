@@ -39,7 +39,6 @@
 		: '';
 
 	// 選択されたトラックに基づいてハッシュタグを更新 (eventDataが存在するか確認)
-	// JSONデータには # が含まれている前提
 	$: {
 		const baseHashtag = eventData?.mainHashtag || '';
 		let currentHashtags = [baseHashtag];
@@ -48,17 +47,21 @@
 			// 配列から選択されたトラックオブジェクトを取得し、その hashtag プロパティを追加
 			currentHashtags.push(eventData.tracks[selectedTrackIndex].hashtag);
 		}
-		// JSONの値をそのまま結合（#付き前提）
-		hashtagsPreview = currentHashtags.filter(h => h).join(' ');
+		// 各ハッシュタグの前に # がなければ付与し、空のものは除外
+		hashtagsPreview = currentHashtags
+			.filter(h => h) // 空の文字列を除外
+			.map(h => h.startsWith('#') ? h : `#${h}`) // # がなければ付与
+			.join(' ');
 	}
 
     // 投稿内容やハッシュタグが変わったらプレビューを更新
-    // hashtagsPreview は # 付き前提
     $: {
-        if (tweetContent) {
-            // hashtagsPreview もエスケープする
+        if (tweetContent || hashtagsPreview) { // コンテンツかハッシュタグがあればプレビュー更新
+            // hashtagsPreview には既に # が付いているのでエスケープのみ
             const escapedHashtags = escapeHtml(hashtagsPreview);
-            tweetPreviewHtml = `<p>${escapeHtml(tweetContent)}</p><p>${escapedHashtags}</p>`;
+            // コンテンツがない場合はハッシュタグのみ表示
+            const escapedContent = tweetContent ? `<p>${escapeHtml(tweetContent)}</p>` : '';
+            tweetPreviewHtml = `${escapedContent}<p>${escapedHashtags}</p>`;
         } else {
             tweetPreviewHtml = '<p><em>ここに投稿プレビューが表示されます...</em></p>';
         }
