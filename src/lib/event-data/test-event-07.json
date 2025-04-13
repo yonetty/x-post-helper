@@ -1,0 +1,19 @@
+{
+  "eventId": "test-event-07",
+  "eventName": "テストイベント漆号",
+  "mainHashtag": "TestEvent07",
+  "tracks": [
+    {
+      "hashtag": "TestEvent2025A",
+      "name": "トラックA"
+    },
+    {
+      "hashtag": "TestEvent2025B",
+      "name": "トラックB"
+    },
+    {
+      "hashtag": "TestEvent2025C",
+      "name": "トラックC"
+    }
+  ]
+}
