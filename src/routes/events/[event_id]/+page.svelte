@@ -9,7 +9,7 @@
 	$: eventData = data.eventData as EventData; // dataが変更されたらeventDataも更新
 	// isLoading, errorMessage は不要
 
-	let selectedTrack = '';
+	let selectedTrackIndex: number | null = null; // 選択されたトラックのインデックスを保持 (nullは未選択)
 	let tweetContent = '';
 	// hashtagsPreview と tweetPreviewHtml はリアクティブに計算するため、初期値は安全なデフォルトを設定
 	let hashtagsPreview = '';
@@ -43,8 +43,10 @@
 	$: {
 		const baseHashtag = eventData?.mainHashtag || '';
 		let currentHashtags = [baseHashtag];
-		if (selectedTrack && eventData?.tracks?.[selectedTrack as keyof typeof eventData.tracks]) {
-			currentHashtags.push(eventData.tracks[selectedTrack as keyof typeof eventData.tracks]);
+		// selectedTrackIndex が null でなく、有効なインデックスの場合
+		if (selectedTrackIndex !== null && eventData?.tracks?.[selectedTrackIndex]) {
+			// 配列から選択されたトラックオブジェクトを取得し、その hashtag プロパティを追加
+			currentHashtags.push(eventData.tracks[selectedTrackIndex].hashtag);
 		}
 		// JSONの値をそのまま結合（#付き前提）
 		hashtagsPreview = currentHashtags.filter(h => h).join(' ');
@@ -64,8 +66,8 @@
 
     // --- イベントハンドラ ---
 
-    function selectTrack(track: string) {
-        selectedTrack = track;
+    function selectTrack(index: number | null) { // 引数をインデックスに変更 (null許容)
+        selectedTrackIndex = index;
     }
 
     function clearContent() {
@@ -112,19 +114,19 @@
             <button
                 type="button"
                 class="track-panel no-track"
-                class:selected={selectedTrack === ''}
-                on:click={() => selectTrack('')}
+                class:selected={selectedTrackIndex === null}
+                on:click={() => selectTrack(null)}
             >
                 トラック指定なし
             </button>
-            {#each Object.entries(eventData.tracks) as [trackKey, hashtag] (trackKey)}
+            {#each eventData.tracks as track, i (i)} <!-- 配列をループし、インデックスをキーにする -->
                 <button
                     type="button"
                     class="track-panel"
-                    class:selected={selectedTrack === trackKey}
-                    on:click={() => selectTrack(trackKey)}
+                    class:selected={selectedTrackIndex === i}
+                    on:click={() => selectTrack(i)}
                 >
-                    トラック{trackKey}
+                    {track.name} <!-- trackオブジェクトのnameプロパティを表示 -->
                 </button>
             {/each}
         </div>

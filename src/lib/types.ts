@@ -11,10 +11,11 @@ export interface EventData {
 	 */
 	mainHashtag: string;
 	/**
-	 * トラック情報 (キー: トラック名, 値: トラックハッシュタグ)
+	 * トラック情報 (オブジェクトの配列)
+	 * 各オブジェクトは name と hashtag プロパティを持つ
 	 * 最低1つ以上のトラックが必要
 	 */
-	tracks: { [key: string]: string };
+	tracks: { name: string; hashtag: string }[];
 	/**
 	 * アイコン絵文字 (任意)
 	 */
