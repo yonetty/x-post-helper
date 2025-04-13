@@ -1,40 +1,13 @@
 <script lang="ts">
-	// import type { PageData } from './$types'; // PageData は不要
+	import type { PageData } from './$types'; // PageData を再度インポート
 	import type { EventData } from '$lib/types'; // EventData 型をインポート
-	import { onMount } from 'svelte'; // onMount をインポート
-	import { page } from '$app/stores'; // page ストアをインポート
-	import { base } from '$app/paths'; // base パスをインポート
+	// onMount, page, base は不要
 
-	// クライアントサイドでデータを取得するための変数
-	let eventData: EventData | null = null; // 初期値は null
-	let isLoading = true; // ローディング状態
-	let errorMessage: string | null = null; // エラーメッセージ
-
-	// onMount でデータを動的インポート
-	onMount(async () => {
-		const eventId = $page.params.event_id; // URLから event_id を取得
-		try {
-			// src/lib 内のデータを動的インポート
-			// Viteはこれを認識し、必要なJSONファイルをバンドルに含める（はず）
-			const module = await import(`../../../lib/event-data/${eventId}.json`);
-			eventData = module.default as EventData; // default export を取得
-			if (!eventData) {
-				// モジュールはロードできたが default export がない場合など
-				throw new Error(`イベント '${eventId}' のデータ形式が正しくありません。`);
-			}
-		} catch (err) {
-			// import() が失敗した場合 (ファイルが存在しないなど)
-			console.error('イベントデータの読み込みに失敗:', err);
-			if (err instanceof Error) {
-				errorMessage = err.message;
-			} else {
-				errorMessage = '不明なエラーが発生しました。';
-			}
-		} finally {
-			isLoading = false;
-		}
-	});
-
+	// +page.server.ts から渡されるデータを受け取る
+	export let data: PageData;
+	// eventData は data プロパティ経由で渡されるため、リアクティブに扱う
+	$: eventData = data.eventData as EventData; // dataが変更されたらeventDataも更新
+	// isLoading, errorMessage は不要
 
 	let selectedTrack = '';
 	let tweetContent = '';
@@ -66,16 +39,19 @@
 		: '';
 
 	// 選択されたトラックに基づいてハッシュタグを更新 (eventDataが存在するか確認)
+	// JSONデータには # が含まれている前提
 	$: {
 		const baseHashtag = eventData?.mainHashtag || '';
 		let currentHashtags = [baseHashtag];
 		if (selectedTrack && eventData?.tracks?.[selectedTrack as keyof typeof eventData.tracks]) {
 			currentHashtags.push(eventData.tracks[selectedTrack as keyof typeof eventData.tracks]);
 		}
+		// JSONの値をそのまま結合（#付き前提）
 		hashtagsPreview = currentHashtags.filter(h => h).join(' ');
 	}
 
     // 投稿内容やハッシュタグが変わったらプレビューを更新
+    // hashtagsPreview は # 付き前提
     $: {
         if (tweetContent) {
             // hashtagsPreview もエスケープする
@@ -120,15 +96,8 @@
 	{/if}
 </svelte:head>
 
-{#if isLoading}
-	<p>イベントデータを読み込み中...</p>
-{:else if errorMessage}
-	<div class="container error-message">
-		<h1>エラー</h1>
-		<p>{errorMessage}</p>
-		<p><a href="{base}/">トップページに戻る</a></p> <!-- base パスを考慮 -->
-	</div>
-{:else if eventData} <!-- eventDataがロードされたらコンテンツを表示 -->
+<!-- isLoading, errorMessage の分岐は不要 -->
+{#if eventData} <!-- eventDataがロードされるまでコンテンツを表示しない -->
 <div class="container">
 	<h1>
 		{eventData.eventName}
@@ -169,10 +138,7 @@
         </div>
     </div>
 
-    <div>
-        <!-- ラベルを削除し、プレビューが見出し的な役割を果たすようにする -->
-        <div class="hashtags-preview">{hashtagsPreview}</div>
-    </div>
+    <!-- 不要なハッシュタグ表示欄を削除 -->
 
     <div class="tweet-preview">
         {@html tweetPreviewHtml}
@@ -187,25 +153,13 @@
 <footer>
     <p>© 2025 X投稿ヘルパー | <a href="https://github.com/yonetty/x-post-helper" target="_blank">GitHub</a></p>
 </footer>
-{/if} <!-- isLoading / errorMessage / eventData の条件分岐終了 -->
+{:else}
+	<!-- データがない場合の表示（通常は発生しないはず） -->
+	<p>イベントデータが見つかりません。</p>
+{/if}
 
 <style>
-	/* エラーメッセージ用のスタイルを追加 */
-	.error-message {
-		border: 2px solid #e74c3c;
-		background-color: #fbeae5;
-		color: #c0392b;
-		padding: 20px;
-		text-align: center;
-	}
-	.error-message h1 {
-		color: #c0392b;
-		margin-bottom: 10px;
-	}
-	.error-message a {
-		color: #c0392b;
-		text-decoration: underline;
-	}
+	/* エラーメッセージ用のスタイルは削除 */
     /* 元のHTMLからスタイルをコピー */
     :global(body) { /* グローバルスタイルとして適用 */
         font-family: 'Helvetica Neue', Arial, sans-serif;
