@@ -37,6 +37,10 @@ jobs:
         run: npm run build # Svelteアプリをビルド (出力先: build ディレクトリ)
         # env: BASE_PATH は削除し、svelte.config.js の paths.base に依存させる
 
+      - name: Copy index.html to 404.html for SPA fallback
+        run: cp build/index.html build/404.html
+        # GitHub PagesがNot Found時に404.htmlを返す挙動を利用する
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         # このステップは actions/deploy-pages を使う場合に推奨されます
