@@ -1,11 +1,43 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	// import type { PageData } from './$types'; // PageData は不要
 	import type { EventData } from '$lib/types'; // EventData 型をインポート
+	import { onMount } from 'svelte'; // onMount をインポート
+	import { page } from '$app/stores'; // page ストアをインポート
+	import { base } from '$app/paths'; // base パスをインポート
 
-	// +page.server.ts から渡されるデータを受け取る
-	export let data: PageData;
-	// eventData は data プロパティ経由で渡されるため、リアクティブに扱う
-	$: eventData = data.eventData as EventData; // dataが変更されたらeventDataも更新
+	// クライアントサイドでデータを取得するための変数
+	let eventData: EventData | null = null; // 初期値は null
+	let isLoading = true; // ローディング状態
+	let errorMessage: string | null = null; // エラーメッセージ
+
+	// onMount でデータをフェッチ
+	onMount(async () => {
+		const eventId = $page.params.event_id; // URLから event_id を取得
+		try {
+			// base パスを考慮してJSONファイルのURLを構築
+			// static ディレクトリ内のファイルは base パスからの相対パスでアクセス
+			const response = await fetch(`${base}/event-data/${eventId}.json`);
+			if (!response.ok) {
+				// 404 以外のエラーも考慮
+				if (response.status === 404) {
+					throw new Error(`イベント '${eventId}' のデータが見つかりません。`);
+				} else {
+					throw new Error(`イベントデータの読み込みに失敗しました (HTTP ${response.status})`);
+				}
+			}
+			eventData = await response.json();
+		} catch (err) {
+			console.error('イベントデータの読み込みに失敗:', err);
+			if (err instanceof Error) {
+				errorMessage = err.message;
+			} else {
+				errorMessage = '不明なエラーが発生しました。';
+			}
+		} finally {
+			isLoading = false;
+		}
+	});
+
 
 	let selectedTrack = '';
 	let tweetContent = '';
@@ -85,13 +117,21 @@
 </script>
 
 <svelte:head>
-	<title>{eventData?.eventName || 'X投稿ヘルパー'} - X投稿ヘルパー</title> 
+	<title>{eventData?.eventName || 'X投稿ヘルパー'} - X投稿ヘルパー</title> <!-- eventDataが未定義の場合のフォールバック -->
 	{#if faviconHref}
 		<link rel="icon" href={faviconHref} />
 	{/if}
 </svelte:head>
 
-{#if eventData} 
+{#if isLoading}
+	<p>イベントデータを読み込み中...</p>
+{:else if errorMessage}
+	<div class="container error-message">
+		<h1>エラー</h1>
+		<p>{errorMessage}</p>
+		<p><a href="{base}/">トップページに戻る</a></p> <!-- base パスを考慮 -->
+	</div>
+{:else if eventData} <!-- eventDataがロードされたらコンテンツを表示 -->
 <div class="container">
 	<h1>
 		{eventData.eventName}
@@ -150,11 +190,25 @@
 <footer>
     <p>© 2025 X投稿ヘルパー | <a href="https://github.com/yonetty/x-post-helper" target="_blank">GitHub</a></p>
 </footer>
-{:else}
-    <p>イベントデータを読み込み中...</p> 
-{/if}
+{/if} <!-- isLoading / errorMessage / eventData の条件分岐終了 -->
 
 <style>
+	/* エラーメッセージ用のスタイルを追加 */
+	.error-message {
+		border: 2px solid #e74c3c;
+		background-color: #fbeae5;
+		color: #c0392b;
+		padding: 20px;
+		text-align: center;
+	}
+	.error-message h1 {
+		color: #c0392b;
+		margin-bottom: 10px;
+	}
+	.error-message a {
+		color: #c0392b;
+		text-decoration: underline;
+	}
     /* 元のHTMLからスタイルをコピー */
     :global(body) { /* グローバルスタイルとして適用 */
         font-family: 'Helvetica Neue', Arial, sans-serif;
