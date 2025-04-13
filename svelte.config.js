@@ -8,7 +8,7 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		appDir: '_app', // デフォルトの '_app' に戻す
+		appDir: 'app', // アンダースコアで始まらない名前に戻す
 		paths: {
 			base: '/x-post-helper' // GitHub Pagesのサブディレクトリ用にベースパスを設定
 		},
