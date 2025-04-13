@@ -22,7 +22,7 @@ const config = {
 			// these options are set automatically — see below
 			pages: 'build', // 出力ディレクトリ
 			// assets: 'build', // この行を削除し、デフォルトの挙動に任せる
-			fallback: 'index.html', // SPAモード用のフォールバックファイルを再度有効化
+			// fallback: 'index.html', // プリレンダリングするのでフォールバックは不要
 			precompress: false, // 事前圧縮は無効
 			strict: true // エラー時にビルドを失敗させる
 		})
