@@ -1,10 +1,10 @@
 {
 	"eventId": "kinoko2025",
-	"eventName": "きのこカンファレンス2025 (ダミー)",
-	"mainHashtag": "#kinoko2025",
+	"eventName": "きのこカンファレンス2025",
+	"mainHashtag": "#きのこ2025",
 	"iconEmoji": "🍄",
 	"tracks": [
-		{ "name": "トラックA", "hashtag": "#kinoko2025A" },
-		{ "name": "トラックB", "hashtag": "#kinoko2025B" }
+		{ "name": "トラックA", "hashtag": "#きのこ2025_a" },
+		{ "name": "トラックB", "hashtag": "#きのこ2025_b" }
 	]
 }
