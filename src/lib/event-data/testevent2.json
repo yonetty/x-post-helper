@@ -1,0 +1,16 @@
+{
+  "eventId": "testevent2",
+  "eventName": "テスト的なやつ",
+  "iconEmoji": "🐍",
+  "mainHashtag": "#foo",
+  "tracks": [
+    {
+      "hashtag": "#bar",
+      "name": "Bar"
+    },
+    {
+      "hashtag": "#buz",
+      "name": "Buz"
+    }
+  ]
+}
