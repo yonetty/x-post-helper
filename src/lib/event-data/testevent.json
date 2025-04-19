@@ -1,0 +1,13 @@
+{
+  "eventId": "testevent",
+  "icon": "🐢",
+  "mainHashtag": "#test",
+  "name": "テストイベント",
+  "tracks": [
+    "A",
+    "#test_a",
+    "B",
+    "#test_b"
+  ],
+  "url": "https://www.example.com"
+}
