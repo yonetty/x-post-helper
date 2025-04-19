@@ -1,0 +1,16 @@
+{
+  "eventId": "testevent",
+  "eventName": "テストイベント",
+  "iconEmoji": "🐢",
+  "mainHashtag": "#test",
+  "tracks": [
+    {
+      "hashtag": "#test_a",
+      "name": "A"
+    },
+    {
+      "hashtag": "#test_b",
+      "name": "B"
+    }
+  ]
+}
