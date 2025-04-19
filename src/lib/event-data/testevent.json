@@ -1,0 +1,15 @@
+{
+  "eventId": "testevent",
+  "mainHashtag": "#test",
+  "name": "テストイベント",
+  "tracks": [
+    {
+      "hashtag": "#test_a",
+      "name": "A"
+    },
+    {
+      "hashtag": "#test_b",
+      "name": "B"
+    }
+  ]
+}
