@@ -1,0 +1,16 @@
+{
+  "eventId": "hello",
+  "eventName": "ハロー",
+  "iconEmoji": "🐕",
+  "mainHashtag": "#hello",
+  "tracks": [
+    {
+      "hashtag": "#hello_a",
+      "name": "A"
+    },
+    {
+      "hashtag": "#hello_b",
+      "name": "B"
+    }
+  ]
+}
