@@ -1,12 +1,24 @@
 {
   "eventId": "piyo",
-  "eventName": "piyo",
-  "iconEmoji": "🐍",
+  "eventName": "重複ぴよ",
+  "iconEmoji": "🐣",
   "mainHashtag": "#piyo",
   "tracks": [
     {
-      "hashtag": "#piyoyo",
+      "hashtag": "#pi",
       "name": "A"
+    },
+    {
+      "hashtag": "#yo",
+      "name": "B"
+    },
+    {
+      "hashtag": "#puyo",
+      "name": "C"
+    },
+    {
+      "hashtag": "#poyo",
+      "name": "D"
     }
   ]
 }
