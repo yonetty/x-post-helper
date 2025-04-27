@@ -1,11 +1,11 @@
 {
   "eventId": "piyo",
-  "eventName": "piyo",
-  "iconEmoji": "🐍",
+  "eventName": "ピヨピヨん",
+  "iconEmoji": "🐮",
   "mainHashtag": "#piyo",
   "tracks": [
     {
-      "hashtag": "#piyoyo",
+      "hashtag": "#puyo",
       "name": "A"
     }
   ]
