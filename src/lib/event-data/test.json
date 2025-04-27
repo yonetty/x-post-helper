@@ -1,0 +1,20 @@
+{
+  "eventId": "test",
+  "eventName": "テストカンファレンス",
+  "iconEmoji": "🤖",
+  "mainHashtag": "#testcon",
+  "tracks": [
+    {
+      "hashtag": "#testA",
+      "name": "A"
+    },
+    {
+      "hashtag": "#testB",
+      "name": "B"
+    },
+    {
+      "hashtag": "#testC",
+      "name": "C"
+    }
+  ]
+}
