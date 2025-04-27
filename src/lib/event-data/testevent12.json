@@ -1,0 +1,12 @@
+{
+  "eventId": "testevent12",
+  "eventName": "Test Event (12)",
+  "iconEmoji": "🍜",
+  "mainHashtag": "#testevent12",
+  "tracks": [
+    {
+      "hashtag": "#testevent12a",
+      "name": "A"
+    }
+  ]
+}
