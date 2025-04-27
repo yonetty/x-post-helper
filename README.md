@@ -1,38 +1,23 @@
-# sv
+# X投稿ヘルパー (x-post-helper)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## 概要
 
-## Creating a project
+X投稿ヘルパーは、カンファレンスやイベント開催中に参加者がX (旧Twitter) へ簡単に投稿できるよう支援するWebアプリケーションです。
 
-If you're seeing this, you've probably already done this step. Congrats!
+イベント主催者は、事前にイベント情報（ハッシュタグ、トラック情報など）を登録することで、参加者向けの専用投稿ページを生成できます。参加者はこのページを通じて、イベントの公式ハッシュタグや、参加中のトラックに応じたハッシュタグを自動で含めた投稿を作成できます。
 
-```bash
-# create a new project in the current directory
-npx sv create
+![イベントページサンプル](static/sample-event-page.png)
+*イベントページのサンプル（きのこカンファレンス2025）*
 
-# create a new project in my-app
-npx sv create my-app
-```
+## イベントページ作成を依頼したい方へ
 
-## Developing
+X投稿ヘルパーを使ったイベント用投稿ページの作成をご希望の場合は、以下のフォームよりお申し込みください。
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+**申請方法:** [申請フォームより情報を入力してください](https://forms.gle/Q3k3ykvMeTthqbCD9)
 
-```bash
-npm run dev
+**申請期限:** イベント開催日の**2日前**までを目安にお願いします
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+**サンプルページ:**
+実際に作成されるイベントページのサンプルはこちらで確認できます。
+[きのこカンファレンス2025 サンプルページ](https://yonetty.github.io/x-post-helper/events/kinoko2025)
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
