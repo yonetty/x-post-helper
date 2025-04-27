@@ -1,0 +1,54 @@
+name: Notify Publication
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/lib/event-data/**.json' # JSONファイルの変更時のみトリガー
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # 変更されたファイルを取得するために必要
+
+      - name: Get changed file
+        id: changed_file
+        run: |
+          # mainへのpush(マージ)で変更されたJSONファイルを取得
+          # 通常は1ファイルのはずだが、念のため最初のファイルのみ取得
+          changed_json=$(git diff --name-only HEAD~1 HEAD | grep 'src/lib/event-data/.*\.json$' | head -n 1)
+          if [ -z "$changed_json" ]; then
+            echo "No relevant JSON file changed. Skipping notification."
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          # ファイルパスからeventIdを抽出 (例: src/lib/event-data/kinoko2025.json -> kinoko2025)
+          event_id=$(basename "$changed_json" .json)
+          echo "Detected change in eventId: $event_id"
+          echo "event_id=$event_id" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+
+      - name: Call Notification Endpoint
+        if: steps.changed_file.outputs.skip == 'false'
+        run: |
+          response=$(curl -s -w "%{http_code}" -X POST -H "Content-Type: application/json" \
+            -d '{"eventId": "${{ steps.changed_file.outputs.event_id }}"}' \
+            ${{ secrets.APPROVAL_SERVER_NOTIFY_URL }})
+          
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          
+          echo "Notify API Response Code: $http_code"
+          echo "Notify API Response Body: $body"
+          
+          if [ "$http_code" -ne 200 ]; then
+            echo "::error::Failed to notify publication. HTTP Status Code: $http_code"
+            exit 1
+          fi
+        env:
+          APPROVAL_SERVER_NOTIFY_URL: ${{ secrets.APPROVAL_SERVER_NOTIFY_URL }} # Vercel等の承認サーバーの通知エンドポイントURL
