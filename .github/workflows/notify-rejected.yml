@@ -14,8 +14,11 @@ jobs:
     steps:
       - name: Extract eventId from branch name
         id: extract_event_id
-        # ブランチ名 'event/EVENT_ID' から 'EVENT_ID' 部分を抽出
-        run: echo "EVENT_ID=$(echo ${{ github.head_ref }} | sed 's/^event\\///')" >> $GITHUB_OUTPUT
+        run: |
+          echo "Source branch name (github.head_ref): ${{ github.head_ref }}"
+          EVENT_ID=$(echo "${{ github.head_ref }}" | cut -d'/' -f2)
+          echo "Extracted eventId: $EVENT_ID"
+          echo "EVENT_ID=$EVENT_ID" >> $GITHUB_OUTPUT
 
       - name: Call rejection endpoint
         env:
@@ -23,16 +26,29 @@ jobs:
           REJECT_ENDPOINT_URL: ${{ secrets.REJECT_ENDPOINT_URL }}
           EVENT_ID: ${{ steps.extract_event_id.outputs.EVENT_ID }}
         run: |
-          echo "Calling rejection endpoint for eventId: $EVENT_ID"
-          response=$(curl -s -w "%{http_code}" -X POST "$REJECT_ENDPOINT_URL" \
+          echo "Calling rejection endpoint for eventId: '$EVENT_ID'" # シングルクォートで囲んで空かどうか分かりやすくする
+
+          # eventIdが空でないことを確認
+          if [ -z "$EVENT_ID" ]; then
+            echo "::error::Failed to extract eventId from branch name: ${{ github.head_ref }}"
+            exit 1
+          fi
+
+          # ステータスコードとボディを分けて取得
+          http_code=$(curl -s -o response_body.txt -w "%{http_code}" -X POST "$REJECT_ENDPOINT_URL" \
                -H "Content-Type: application/json" \
                -d "{\"eventId\": \"$EVENT_ID\"}")
 
-          http_code=$(echo "$response" | tail -n1) # HTTPステータスコードを取得
-          body=$(echo "$response" | sed '$d') # レスポンスボディを取得
+          body=$(cat response_body.txt)
 
           echo "Response Body: $body"
           echo "HTTP Status Code: $http_code"
+
+          # ステータスコードが数値であることを確認 (念のため)
+          if ! [[ "$http_code" =~ ^[0-9]+$ ]]; then
+            echo "::error::Invalid HTTP status code received: $http_code"
+            exit 1
+          fi
 
           if [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ]; then
             echo "Rejection notification sent successfully for eventId: $EVENT_ID"
@@ -40,6 +56,6 @@ jobs:
              # 404 (Not Found) は、該当イベントがないか、既に承認済みでない場合など。ワークフローとしてはエラー扱いにしない
              echo "Event not found or rejection is not applicable for eventId: $EVENT_ID. No action needed."
           else
-            echo "::error::Failed to send rejection notification for eventId: $EVENT_ID. Status code: $http_code"
+            echo "::error::Failed to send rejection notification for eventId: $EVENT_ID. Status code: $http_code, Body: $body"
             exit 1 # 失敗としてワークフローを終了
           fi
