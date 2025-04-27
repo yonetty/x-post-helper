@@ -1,9 +1,0 @@
-{
-	"eventId": "test-event-02",
-	"eventName": "テストイベント弐号 (ダミー)",
-	"mainHashtag": "#TestEvent02",
-	"tracks": [
-		{ "name": "トラックA", "hashtag": "#TestEvent02A" },
-		{ "name": "トラックB", "hashtag": "#TestEvent02B" }
-	]
-}
