@@ -1,0 +1,16 @@
+{
+  "eventId": "piyopiyo",
+  "eventName": "ぴよぴよ",
+  "iconEmoji": "🐤",
+  "mainHashtag": "#piyopiyo",
+  "tracks": [
+    {
+      "hashtag": "#piyo_1",
+      "name": "トラック1"
+    },
+    {
+      "hashtag": "#piyo_2",
+      "name": "トラック2"
+    }
+  ]
+}
