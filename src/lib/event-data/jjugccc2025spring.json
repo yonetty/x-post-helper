@@ -1,0 +1,40 @@
+{
+  "eventId": "jjugccc2025spring",
+  "eventName": "JJUG CCC 2025 Spring",
+  "iconEmoji": "☕️",
+  "mainHashtag": "#jjug_ccc",
+  "tracks": [
+    {
+      "hashtag": "#jjug_ccc_a",
+      "name": "RoomA+B"
+    },
+    {
+      "hashtag": "#jjug_ccc_c",
+      "name": "RoomC+D"
+    },
+    {
+      "hashtag": "#jjug_ccc_e",
+      "name": "RoomE"
+    },
+    {
+      "hashtag": "#jjug_ccc_f",
+      "name": "RoomF"
+    },
+    {
+      "hashtag": "#jjug_ccc_g",
+      "name": "RoomG+H"
+    },
+    {
+      "hashtag": "#jjug_ccc_i",
+      "name": "RoomI"
+    },
+    {
+      "hashtag": "#jjug_ccc_j",
+      "name": "RoomJ"
+    },
+    {
+      "hashtag": "#jjug_ccc_l",
+      "name": "RoomL"
+    }
+  ]
+}
