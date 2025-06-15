@@ -157,6 +157,10 @@
 
 <footer>
     <p>© 2025 X投稿ヘルパー | <a href="https://github.com/yonetty/x-post-helper" target="_blank">GitHub</a></p>
+    <p class="footer-info">
+        他のイベント用のX投稿ヘルパーサイトをご希望の場合は、
+        <a href="https://forms.gle/Q3k3ykvMeTthqbCD9" target="_blank">こちらのフォーム</a>よりお申し込みください。
+    </p>
 </footer>
 {:else}
 	<!-- データがない場合の表示（通常は発生しないはず） -->
@@ -302,6 +306,18 @@
         text-align: center;
         font-size: 14px;
         color: #657786;
+    }
+    .footer-info {
+        margin-top: 10px;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+    .footer-info a {
+        color: #1da1f2;
+        text-decoration: none;
+    }
+    .footer-info a:hover {
+        text-decoration: underline;
     }
     /* クリアボタンのスタイルを調整 */
     .small-button {
