@@ -59,9 +59,12 @@
         if (tweetContent || hashtagsPreview) { // コンテンツかハッシュタグがあればプレビュー更新
             // hashtagsPreview には既に # が付いているのでエスケープのみ
             const escapedHashtags = escapeHtml(hashtagsPreview);
-            // コンテンツがない場合はハッシュタグのみ表示
-            const escapedContent = tweetContent ? `<p>${escapeHtml(tweetContent)}</p>` : '';
-            tweetPreviewHtml = `${escapedContent}<p>${escapedHashtags}</p>`;
+            // テキストとハッシュタグを空白1文字で区切って1つのpタグ内に表示
+            if (tweetContent) {
+                tweetPreviewHtml = `<p>${escapeHtml(tweetContent)} ${escapedHashtags}</p>`;
+            } else {
+                tweetPreviewHtml = `<p>${escapedHashtags}</p>`;
+            }
         } else {
             tweetPreviewHtml = '<p><em>ここに投稿プレビューが表示されます...</em></p>';
         }
@@ -89,7 +92,7 @@
     }
 
     function postToX() {
-        const tweetText = encodeURIComponent(`${tweetContent}\n\n${hashtagsPreview}`);
+        const tweetText = encodeURIComponent(`${tweetContent} ${hashtagsPreview}`);
         window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
     }
 </script>
