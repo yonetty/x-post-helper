@@ -1,0 +1,24 @@
+{
+  "eventId": "productivity2025",
+  "eventName": "開発生産性Conference 2025",
+  "iconEmoji": "🎩",
+  "mainHashtag": "#開発生産性con_findy",
+  "tracks": [
+    {
+      "hashtag": "#開発生産性con_findy_A",
+      "name": "ホールA"
+    },
+    {
+      "hashtag": "#開発生産性con_findy_B",
+      "name": "ホールB"
+    },
+    {
+      "hashtag": "#開発生産性con_findy_C",
+      "name": "ホールC"
+    },
+    {
+      "hashtag": "#開発生産性con_findy_D",
+      "name": "ホールD"
+    }
+  ]
+}
