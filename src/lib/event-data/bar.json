@@ -1,0 +1,16 @@
+{
+  "eventId": "bar",
+  "eventName": "Bar",
+  "iconEmoji": "⚽️",
+  "mainHashtag": "#bar",
+  "tracks": [
+    {
+      "hashtag": "#bar_A",
+      "name": "A"
+    },
+    {
+      "hashtag": "#bar_B",
+      "name": "B"
+    }
+  ]
+}
