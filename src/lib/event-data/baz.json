@@ -1,0 +1,16 @@
+{
+  "eventId": "baz",
+  "eventName": "Baz",
+  "iconEmoji": "⚽️",
+  "mainHashtag": "#baz",
+  "tracks": [
+    {
+      "hashtag": "#baz_a",
+      "name": "A"
+    },
+    {
+      "hashtag": "#baz_b",
+      "name": "B"
+    }
+  ]
+}
