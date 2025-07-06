@@ -1,0 +1,16 @@
+{
+  "eventId": "foo",
+  "eventName": "foo",
+  "iconEmoji": "🤡",
+  "mainHashtag": "#foo",
+  "tracks": [
+    {
+      "hashtag": "#foo_A",
+      "name": "A"
+    },
+    {
+      "hashtag": "#foo_B",
+      "name": "B"
+    }
+  ]
+}
