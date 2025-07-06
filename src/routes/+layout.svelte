@@ -3,13 +3,7 @@
 	import { page } from '$app/stores';
 
 	// Google Analytics initialization
-	// 環境変数を条件付きでインポート（ビルド時のエラーを回避）
-	let GA_MEASUREMENT_ID = '';
-	
-	if (browser) {
-		// クライアントサイドでのみ環境変数にアクセス
-		GA_MEASUREMENT_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || '';
-	}
+	const GA_MEASUREMENT_ID = 'G-EFFC4L3522';
 	
 	if (browser && GA_MEASUREMENT_ID) {
 		// Load gtag.js script
