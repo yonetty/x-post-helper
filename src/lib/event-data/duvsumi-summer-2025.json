@@ -1,0 +1,20 @@
+{
+  "eventId": "duvsumi-summer-2025",
+  "eventName": "デブサミ夏2025",
+  "iconEmoji": "⛰️",
+  "mainHashtag": "#devsumi",
+  "tracks": [
+    {
+      "hashtag": "#devsumiA",
+      "name": "A会場"
+    },
+    {
+      "hashtag": "#devsumiB",
+      "name": "B会場"
+    },
+    {
+      "hashtag": "#devsumiC",
+      "name": "C会場"
+    }
+  ]
+}
